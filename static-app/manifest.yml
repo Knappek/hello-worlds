@@ -1,0 +1,5 @@
+---
+applications:
+  - name: hello-static-world
+    routes:
+    - route: static_org_a.apps.172.30.5.126.nip.io

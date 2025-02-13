@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: k8s-internal
+  namespace: cert-manager
+spec:
+  secretName: k8s-internal-tls
+  issuerRef:
+    name: acme-issuer
+  dnsNames:
+  - ca.knappster.de

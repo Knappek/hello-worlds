@@ -1,0 +1,133 @@
+# bootstrap contains the docker image for bootstrapping the configurations.
+#
+# It's also possible to disable the creation of secrets and configmaps.
+bootstrap:
+  # enabled defines if the bootstrap job is created.
+  enabled: false
+  # configmaps defines if the configmaps are created.
+  configmaps: false
+  # secrets defines if the secrets are created.
+  secrets: false
+
+# inject contains values to be injected into config maps and secrets
+inject:
+  enabled: true
+  config:
+    files:
+      ca.json:
+        root: /home/step/certs/root_ca.crt
+        federateRoots: []
+        crt: /home/step/certs/intermediate_ca.crt
+        key: /home/step/secrets/intermediate_ca_key
+        address: ":9000"
+        dnsNames:
+          - ca.knappster.de
+          - step-ca-step-certificates.ca.svc.cluster.local
+          - 127.0.0.1
+        logger:
+          format: json
+        db:
+          type: badger
+          dataSource: /home/step/db
+        authority:
+          provisioners:
+            - type: ACME
+              name: acme
+              forceCN: true
+              claims: {}
+        tls:
+          cipherSuites:
+            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+            - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+            - TLS_AES_128_GCM_SHA256
+          minVersion: 1.2
+          maxVersion: 1.3
+          renegotiation: false
+      defaults.json:
+        ca-url: https://ca.knappster.de:9000
+        ca-config: /home/step/config/ca.json
+        fingerprint: 21406de87cd30d4b28ea7473efba98473d731a6ab05bf4fc4c618eda7e61e4ea
+        root: /home/step/certs/root_ca.crt
+
+  certificates:
+    # intermediate_ca contains the text of the intermediate CA Certificate
+    intermediate_ca: |
+      -----BEGIN CERTIFICATE-----
+      MIIBuDCCAV+gAwIBAgIRAO6qecA1sFpGi8qoxDQlq3EwCgYIKoZIzj0EAwIwJjEN
+      MAsGA1UEChMEVGVzdDEVMBMGA1UEAxMMVGVzdCBSb290IENBMB4XDTIxMDcyOTEz
+      MDY0M1oXDTMxMDcyNzEzMDY0M1owLjENMAsGA1UEChMEVGVzdDEdMBsGA1UEAxMU
+      VGVzdCBJbnRlcm1lZGlhdGUgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASw
+      BBjg2MzBvjMI4dT3pDfSQTaDIdLiQOVYQ7LqQhpq/sn3SwOapULqchED3Vu++LQA
+      22XbTha0C55sOqg9eD3Uo2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
+      BgEB/wIBADAdBgNVHQ4EFgQUx/b6pos+3+9jEPq5r4Qi5CLI0f0wHwYDVR0jBBgw
+      FoAUuke8XmbH9I7377udHO7EA6W0wAkwCgYIKoZIzj0EAwIDRwAwRAIgeImPvque
+      bJiQXjVN63VO2/reh1NXUVVqxyj9xG2AuiYCIHUiz1EZLLkL5ndoZi81Hi2HOEQ7
+      06dqx3LWvJo+dieX
+      -----END CERTIFICATE-----
+
+    # root_ca contains the text of the root CA Certificate
+    root_ca: |
+      -----BEGIN CERTIFICATE-----
+      MIIBkDCCATWgAwIBAgIQMHSkGtHar0AaFG3U7tBsKDAKBggqhkjOPQQDAjAmMQ0w
+      CwYDVQQKEwRUZXN0MRUwEwYDVQQDEwxUZXN0IFJvb3QgQ0EwHhcNMjEwNzI5MTMw
+      NjQyWhcNMzEwNzI3MTMwNjQyWjAmMQ0wCwYDVQQKEwRUZXN0MRUwEwYDVQQDEwxU
+      ZXN0IFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARYd04Atyv41j1v
+      0c6qnjhpnJ4zQWdRcqLYGU+fYEpGlY0sOrQFll9jQl6pEkqgffXsjB0iPtrz+XAm
+      TPTkNSjWo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd
+      BgNVHQ4EFgQUuke8XmbH9I7377udHO7EA6W0wAkwCgYIKoZIzj0EAwIDSQAwRgIh
+      ALFOXQiUviizD6fs1DsKfpMUI7ajNNSGi2Sa9j1bM5dwAiEAntBo06sHNa3qGbf6
+      VU1ZMS7vr4+ZXvfeXt56vhVx6SU=
+      -----END CERTIFICATE-----
+
+  secrets:
+    # ca_password contains the password used to encrypt x509.intermediate_ca_key, ssh.host_ca_key and ssh.user_ca_key
+    # This value must be base64 encoded.
+    ca_password: "YWJjMTIz"
+    provisioner_password: "YWJjMTIz"
+
+    x509:
+      # enabled enables injection of x509 certificates and keys when set to true.
+      enabled: true
+      # intermediate_ca_key contains the contents of your encrypted intermediate CA key
+      intermediate_ca_key: |
+        -----BEGIN EC PRIVATE KEY-----
+        Proc-Type: 4,ENCRYPTED
+        DEK-Info: AES-256-CBC,cfdbe4f9931ccfb88043e7f3329dc55b
+
+        F4/3GZRTuvQ6a0u/OCYXWiO++cQ7Fwj35WqUuD9T4JCzH0FAcrV9UiB70UuB3n90
+        tqymoXEMrjpVnq/IBkX7kCp0oQHJNIud9n8d+sFnMTUO1CA3tL7Gt6HM+y3gWZxS
+        dGo31//h8Wp31JB0CiQ0VMjmojmLgboxEs+GzkuWBVU=
+        -----END EC PRIVATE KEY-----
+
+      # root_ca_key contains the contents of your encrypted root CA key
+      # Note that this value can be omitted without impacting the functionality of step-certificates
+      # If supplied, this should be encrypted using a unique password that is not used for encrypting
+      # the intermediate_ca_key, ssh.host_ca_key or ssh.user_ca_key.
+      root_ca_key: |
+        -----BEGIN EC PRIVATE KEY-----
+        Proc-Type: 4,ENCRYPTED
+        DEK-Info: AES-256-CBC,f60df674f8819f627e67faa55ced7e56
+
+        bR2OJne7eYoXgcPhL+YmFhHr2tTMQb4Avyrvl+2PQ61l6M+wBvLPXOAEyklTrUL5
+        wRFjegu++YXsEsT1JGPPJNb9cOftS6sd6945e7XD64rWYRWIGcZwljRUH21FNzq4
+        8IrIP1XTofdv1wKPOO97d4o8BFDbmlwQk8hWbt3ntjw=
+        -----END EC PRIVATE KEY-----
+
+    ssh:
+      # enabled enables injection of ssh certificates and keys when set to true.
+      enabled: false
+
+
+# service contains configuration for the kubernetes service.
+service:
+  type: ClusterIP
+  port: 9000
+  targetPort: 9000
+  nodePort: ""
+
+# ingress contains the configuration for an ingress controller.
+ingress:
+  enabled: false
+  annotations: {}
+  hosts: []
+  tls: []

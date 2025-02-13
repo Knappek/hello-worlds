@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: promtail
+  namespace: promtail
+spec:
+  selector:
+    matchLabels:
+      name: promtail
+  template:
+    metadata:
+      labels:
+        name: promtail
+    spec:
+      serviceAccountName: promtail
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: promtail
+          image: grafana/promtail:latest
+          args:
+            - "-config.file=/etc/promtail/promtail-config.yaml"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/promtail
+            - name: audit-logs
+              mountPath: /var/log/kubernetes
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: promtail-config
+        - name: audit-logs
+          hostPath:
+            path: /var/log/kubernetes
+            type: DirectoryOrCreate

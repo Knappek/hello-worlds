@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://wcp.haas-429.pez.vmware.com:6443
+  name: wcp.haas-429.pez.vmware.com
+contexts:
+- context:
+    cluster: wcp.haas-429.pez.vmware.com
+    user: wcp:wcp.haas-429.pez.vmware.com:test@vsphere.local
+  name: wcp.haas-429.pez.vmware.com
+current-context: wcp.haas-429.pez.vmware.com
+kind: Config
+preferences: {}
+users:
+- name: wcp:wcp.haas-429.pez.vmware.com:test@vsphere.local
+  user:
+    token: eyJraWQiOiI3MUU5NDk4M0JGREUyRTU1MjI2MjdDODhBNDcxQjhCQjQ2OTcyQ0IyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0QHZzcGhlcmUubG9jYWwiLCJhdWQiOiJ2bXdhcmUtdGVzOnZjOnZuczprOHMiLCJkb21haW4iOiJ2c3BoZXJlLmxvY2FsIiwiaXNzIjoiaHR0cHM6XC9cL3BhY2lmaWMtdmNzYS5oYWFzLTQyOS5wZXoudm13YXJlLmNvbVwvb3BlbmlkY29ubmVjdFwvdnNwaGVyZS5sb2NhbCIsImdyb3VwX25hbWVzIjpbIkV2ZXJ5b25lQHZzcGhlcmUubG9jYWwiXSwiZXhwIjoxNjI1MjUyNDU3LCJpYXQiOjE2MjUyMTY0NTcsImp0aSI6IjlkYTk0MmMyLTc0MjgtNDMzNS04YWM2LTI1OWYzOGU1ZDQ4MyIsInVzZXJuYW1lIjoidGVzdCJ9.ObiOqPKBIO5lYk_B-ic2n232rkW0dfx5mL_0Az9Jy0v9VyrLPr-KE1rvzgDitUTY67wToN9xTO6KzVx2KFzx_6SOt8Yn0HHtUsGYN3SKKqFNzdqoKzsI3G315-k5DVhZ1bTXYlpvCdZRLsR1tFzEP_LnY9o1yurk0cNXY1EFCjXRMZRh8NSuu2-460QOWPlvjGZ4TCrrftjGAk2d0Bjwr8Qk8ceEQukypDN4dZMutp6s1D-R5-Oa0ljrcPHZmPUSeon-IhG3q465hbJsRVKDHyWTFCHQatjUAMUCZp5-Pn0jGp4fhYXua183Ruepne3vijYfiRWxVJQ4jHZiH8FRqA

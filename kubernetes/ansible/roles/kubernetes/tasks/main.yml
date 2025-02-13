@@ -1,0 +1,12 @@
+---
+
+# - name: install kube-vip
+#   community.kubernetes.k8s:
+#     state: present
+#     template: kube-vip.yaml.j2
+- name: Create a k8s namespace
+  kubernetes.core.k8s:
+    name: testing
+    api_version: v1
+    kind: Namespace
+    state: present

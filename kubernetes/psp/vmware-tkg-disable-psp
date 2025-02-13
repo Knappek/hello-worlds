@@ -1,0 +1,1 @@
+kubectl create clusterrolebinding vmware-system-tkg-disable-psp --clusterrole=psp:vmware-system-privileged --group=system:authenticated

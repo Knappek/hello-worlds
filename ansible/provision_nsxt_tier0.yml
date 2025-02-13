@@ -1,0 +1,32 @@
+---
+- name: Provision NSX-T Tier 0 Gateway
+  hosts: localhost
+  gather_facts: no
+  connection: local
+
+  vars:
+    nsxt_hostname: "172.20.16.11"
+    nsxt_username: "admin"
+    nsxt_password: "VMware1!VMware1!"
+    tier0_name: "T0-stateful-active-active"
+    ansible_python_interpreter: "/Users/ak016518/workspace/hello-worlds/ansible/venv/bin/python3"
+
+  tasks:
+    # - name: debug
+    #   debug:
+    #     msg: "{{ lookup('ansible.builtin.env', 'PATH') }}"
+
+    # - meta: end_play
+    - name: Create a Tier 0 Gateway
+      vmware.ansible_for_nsxt.nsxt_policy_tier0:
+        hostname: "{{ nsxt_hostname }}"
+        username: "{{ nsxt_username }}"
+        password: "{{ nsxt_password }}"
+        validate_certs: False
+        display_name: "{{ tier0_name }}"
+        failover_mode: PREEMPTIVE
+        ha_mode: ACTIVE_STANDBY
+        stateful_services:
+          enabled: True
+        state: present
+      delegate_to: localhost

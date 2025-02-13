@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: foo-bar-knappster-de
+  namespace: cert-manager
+spec:
+  secretName: foo-bar-knappster-de-tls
+  issuerRef:
+    name: acme-issuer
+  dnsNames:
+  - foo.bar.knappster.de

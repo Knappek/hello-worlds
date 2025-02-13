@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: acme-issuer
+  namespace: cert-manager
+spec:
+  acme:
+    email: andreask@vmware.com
+    server: https://step-ca-step-certificates.ca.svc.cluster.local:9000/acme/acme/directory
+    privateKeySecretRef:
+      name: acme-issuer-account-key
+    solvers:
+    - selector:
+        dnsZones:
+          - "knappster.de"
+      dns01:
+        route53:
+          region: eu-central-1
+          accessKeyID: AKIAV5E2BNF2C3NZCTEO
+          secretAccessKeySecretRef:
+            name: cert-manager-own-ca-acme-aws-creds
+            key: secret-access-key

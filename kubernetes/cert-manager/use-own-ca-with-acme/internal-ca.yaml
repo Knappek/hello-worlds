@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  internal-ca.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIBkDCCATWgAwIBAgIQMHSkGtHar0AaFG3U7tBsKDAKBggqhkjOPQQDAjAmMQ0w
+    CwYDVQQKEwRUZXN0MRUwEwYDVQQDEwxUZXN0IFJvb3QgQ0EwHhcNMjEwNzI5MTMw
+    NjQyWhcNMzEwNzI3MTMwNjQyWjAmMQ0wCwYDVQQKEwRUZXN0MRUwEwYDVQQDEwxU
+    ZXN0IFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARYd04Atyv41j1v
+    0c6qnjhpnJ4zQWdRcqLYGU+fYEpGlY0sOrQFll9jQl6pEkqgffXsjB0iPtrz+XAm
+    TPTkNSjWo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd
+    BgNVHQ4EFgQUuke8XmbH9I7377udHO7EA6W0wAkwCgYIKoZIzj0EAwIDSQAwRgIh
+    ALFOXQiUviizD6fs1DsKfpMUI7ajNNSGi2Sa9j1bM5dwAiEAntBo06sHNa3qGbf6
+    VU1ZMS7vr4+ZXvfeXt56vhVx6SU=
+    -----END CERTIFICATE-----
+kind: ConfigMap
+metadata:
+  name: ca-pemstore
+  namespace: cert-manager

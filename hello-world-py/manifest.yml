@@ -1,0 +1,9 @@
+---
+applications:
+  - name: hello-world
+    memory: 128M
+    buildpacks:
+      - python_buildpack
+    command: python hello.py
+#    routes:
+#    - route: hello-world.apps.172.30.7.30.nip.io

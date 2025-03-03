@@ -1,14 +1,19 @@
 ---
 applications:
-  - name: my-python-app
+  - name: postgres-infos
     memory: 128M
     instances: 1
     buildpacks:
       - python_buildpack
     services:
+#      - pg3  # This should match the PostgreSQL service name in Cloud Foundry
       - python-postgres  # This should match the PostgreSQL service name in Cloud Foundry
     env:
       FLASK_ENV: production
       FLASK_APP: app.py  # Ensure this matches your Python file name
+#      POSTGRES_SERVICE: pg3
       POSTGRES_SERVICE: python-postgres
     command: python app.py
+    routes:
+    - route: postgres-infos.apps.172.30.7.130.nip.io
+#    - route: pginfos.apps.172.30.7.130.nip.io

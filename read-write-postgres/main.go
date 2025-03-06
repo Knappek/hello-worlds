@@ -11,14 +11,17 @@ import (
 )
 
 const (
+	// Update dbURL for SSL connection. Make sure to set the appropriate paths for certificates
+	// dbURL = "postgresql://pgadmin:S429u157D360O8FrMjwK@tcp.172.30.7.140.nip.io:18001/postgres?sslmode=require&sslcert=path_to_client_cert.pem&sslkey=path_to_client_key.pem&sslrootcert=path_to_root_cert.pem"
+	// dbURL = "postgresql://pgadmin:S429u157D360O8FrMjwK@tcp.172.30.7.140.nip.io:18001/postgres?sslmode=require"
+	dbURL = "postgresql://pgadmin:S429u157D360O8FrMjwK@tcp.172.30.7.140.nip.io:18001/postgres?sslmode=verify-full&sslrootcert=postgres_ca.crt"
 	// dbURL = "postgresql://pgadmin:6UE1k78239Oi0pv45PsD@tcp.172.30.7.140.nip.io:18000/postgres?sslmode=disable"
-	dbURL = "postgresql://pgadmin:S429u157D360O8FrMjwK@tcp.172.30.7.140.nip.io:18001/postgres"
 )
 
 func main() {
 	r := gin.Default()
 
-	// Connect to the database
+	// Connect to the database using SSL
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal("Error opening database: ", err)

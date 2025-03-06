@@ -11,14 +11,18 @@ A simple web app to publish messages to RabbitMQ and a simple consumer to read t
 Start the publisher web app:
 
 ```shell
-export RABBITMQ_URI=amqp://<username>:<password>@<host>:<port>/<vhost>
+export RABBITMQ_URI=amqp://<username>:<password>@<host>:<port>/<vhost> # amqps:// if SSL is enabled
+# option if SSL is enabled and you need to provide a ca certificate
+export RABBITMQ_CA_CERT_PATH=/path/to/ca.crt
 python3 publish.py
 ```
 
 In another shell start the consumer:
 
 ```shell
-export RABBITMQ_URI=amqp://<username>:<password>@<host>:<port>/<vhost>
+export RABBITMQ_URI=amqp://<username>:<password>@<host>:<port>/<vhost> # amqps:// if SSL is enabled
+# option if SSL is enabled and you need to provide a ca certificate
+export RABBITMQ_CA_CERT_PATH=/path/to/ca.crt
 python3 consume.py
 ```
 

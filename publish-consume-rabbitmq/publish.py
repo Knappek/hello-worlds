@@ -1,5 +1,6 @@
 import pika
 import os
+import ssl
 from flask import Flask, request, jsonify
 
 # Initialize Flask app
@@ -11,6 +12,13 @@ if not AMQP_URI:
 
 def publish_message(message):
     params = pika.URLParameters(AMQP_URI)
+    ssl_options = None
+    if AMQP_URI.startswith("amqps"):
+        ca_cert_path = os.getenv("RABBITMQ_CA_CERT_PATH")
+        ssl_context = ssl.create_default_context(cafile=ca_cert_path) if ca_cert_path else ssl.create_default_context()
+        ssl_options = pika.SSLOptions(ssl_context)
+        params.ssl_options = ssl_options
+
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
     queue_name = 'test_queue'

@@ -5,10 +5,10 @@ from flask import Flask, request, jsonify
 # Initialize Flask app
 app = Flask(__name__)
 
-# Read RabbitMQ connection URI from environment variable
-AMQP_URI = os.getenv("RABBITMQ_URI", "amqp://e5a1134a-9db0-4884-9a7a-e75df6521ef7:70F97fhSllXjLZnZ_DZm3T3X@tcp.172.30.7.140.nip.io:17000/af2ba650-4f96-4ade-99c4-0a25c0680ce9")
+AMQP_URI = os.getenv("RABBITMQ_URI")
+if not AMQP_URI:
+    raise ValueError("RABBITMQ_URI environment variable is not set")
 
-# Publisher function
 def publish_message(message):
     params = pika.URLParameters(AMQP_URI)
     connection = pika.BlockingConnection(params)

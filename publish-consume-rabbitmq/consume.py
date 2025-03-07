@@ -15,6 +15,7 @@ if AMQP_URI.startswith("amqps"):
     ssl_context = ssl.create_default_context(cafile=ca_cert_path) if ca_cert_path else ssl.create_default_context()
     ssl_options = pika.SSLOptions(ssl_context)
     params.ssl_options = ssl_options
+    print(f"[i] using SSL")
 
 # Establish connection and channel
 connection = pika.BlockingConnection(params)

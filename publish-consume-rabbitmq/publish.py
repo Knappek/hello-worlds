@@ -10,15 +10,16 @@ AMQP_URI = os.getenv("RABBITMQ_URI")
 if not AMQP_URI:
     raise ValueError("RABBITMQ_URI environment variable is not set")
 
+params = pika.URLParameters(AMQP_URI)
+ssl_options = None
+if AMQP_URI.startswith("amqps"):
+    ca_cert_path = os.getenv("RABBITMQ_CA_CERT_PATH")
+    ssl_context = ssl.create_default_context(cafile=ca_cert_path) if ca_cert_path else ssl.create_default_context()
+    ssl_options = pika.SSLOptions(ssl_context)
+    params.ssl_options = ssl_options
+    print(f"[i] using SSL")
+    
 def publish_message(message):
-    params = pika.URLParameters(AMQP_URI)
-    ssl_options = None
-    if AMQP_URI.startswith("amqps"):
-        ca_cert_path = os.getenv("RABBITMQ_CA_CERT_PATH")
-        ssl_context = ssl.create_default_context(cafile=ca_cert_path) if ca_cert_path else ssl.create_default_context()
-        ssl_options = pika.SSLOptions(ssl_context)
-        params.ssl_options = ssl_options
-
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
     queue_name = 'test_queue'

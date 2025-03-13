@@ -16,9 +16,17 @@ if AMQP_URI.startswith("amqps"):
     ca_cert_path = os.getenv("RABBITMQ_CA_CERT_PATH")
     ssl_context = ssl.create_default_context(cafile=ca_cert_path) if ca_cert_path else ssl.create_default_context()
     ssl_options = pika.SSLOptions(ssl_context)
-    params.ssl_options = ssl_options
+
+    # # skip verification
+    # ssl_context = ssl.create_default_context()
+    # ssl_context.check_hostname = False
+    # ssl_context.verify_mode = ssl.CERT_NONE
+    # ssl_options = pika.SSLOptions(ssl_context)
     print(f"[i] using SSL")
     
+if ssl_options:
+    params.ssl_options = ssl_options
+
 def publish_message(message):
     connection = pika.BlockingConnection(params)
     channel = connection.channel()

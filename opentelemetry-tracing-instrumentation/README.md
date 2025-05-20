@@ -29,17 +29,24 @@
 1. Navigate to your Grafana Cloud Account at `https://grafana.com/orgs/<your org name>`
 1. select your stack (if you have more than one)
 1. in `OpenTelemetry` click `Configure`
-1. Copy the OTLP endpoint
-1. Start the Go app and send tracing data to Jaeger:
+1. Generate a `Password / API Token`
+1. export the environment variables by simply copy pasting it:
 
     ```shell
-    export OTEL_SERVICE_NAME=hello-grafana-cloud
-    # export OTEL_EXPORTER_OTLP_ENDPOINT="<your otlp endpoint>", e.g.:
+    # Language guides: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/quickstart/
+    export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
     export OTEL_EXPORTER_OTLP_ENDPOINT="https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
+    # Python requires "Basic%20" instead of "Basic "
+    export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Basic MTIyNDM4OT..."
+    ```
+
+1. Start the Go app and send tracing data to Grafana Cloud:
+
+    ```shell
     go run main.go
     ```
 
-1. Make some traffic on your app: [open it in a browser](http://localhost:8080/)
+1. Make some traffic on your app: [open it in a browser](http://localhost:8080/) or `curl localhost:8080`
 1. navigate back to your stack in Grafana Cloud
 1. `Launch` your Grafana instance
 1. Navigate to `Explore` and as the data source select `grafanacloud-<org name>-traces`
